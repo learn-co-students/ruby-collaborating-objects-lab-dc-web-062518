@@ -3,14 +3,18 @@ class Song
   @@all = []
   attr_accessor :name, :artist, :file
 
-  def initialize (name)
+  def initialize(name)
     @name = name
-    @file = file
     @@all << self
   end
 
+
   def self.new_by_filename(file)
-    Song.new(file)
+    array = file.split(' - ')
+    song = Song.new(array[1])
+    song.artist= Artist.find_or_create_by_name(array[0])
+    song
+    # binding.pry
   end
 
   def self.all

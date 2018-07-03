@@ -1,5 +1,6 @@
 require_relative 'Song.rb'
 require_relative 'mp3_importer.rb'
+require 'pry'
 class Artist
 
   @@all =[]
@@ -9,7 +10,7 @@ class Artist
   def initialize(name)
     @name = name
     @@all << self
-    @song = []
+    @songs = []
   end
 
   def self.all
@@ -17,29 +18,36 @@ class Artist
   end
 
   def songs
-    @song
+    @songs
   end
 
   def add_song(song)
-    @song << song
+    @songs << song
     song.artist = name
   end
 
-  def find_or_create_by_name(name)
+  def self.find_or_create_by_name(name)
     found = false
-    @all.each do |artist|
+    @@all.each do |artist|
       if artist.name == name
         found = true
         return artist
       end
     end
     if found == false
-      Artist.new(name)
+      artist = Artist.new(name)
     end
   end
 
   def save
     @@all << self
+  end
+
+  def print_songs
+    self.songs.map do |song|
+      puts song.name
+    end
+
   end
 
 
